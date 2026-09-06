@@ -539,7 +539,6 @@ begin
     on e: Exception do
     begin
       raise EopaRException.Create('Error loading R procedure: ' + e.Message);
-      result := nil;
     end;
   end;
 end;
