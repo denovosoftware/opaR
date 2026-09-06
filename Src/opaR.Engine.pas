@@ -35,7 +35,7 @@ uses
   //Winapi.Windows,
   System.SysUtils,
   System.Classes,
-  winapi.windows,
+
   opaR.SEXPREC,
   opaR.Utils,
   opaR.DLLFunctions,
@@ -536,8 +536,7 @@ var
   status: integer;
   R_argc: integer;
   R_argv: TPAnsiCharArray;
-  replDLLinit: TRFnReplDLLinit;
-  defParams :TRFnDefParams;
+  //replDLLinit: TRFnReplDLLinit;
   memLimit: NativeUInt;
 begin
   if FIsRunning then exit;
@@ -576,19 +575,19 @@ begin
     SetCstackChecking;
 
     // -- R_ReplDLLinit is called by RInside, but not by R.NET. It seems to
-    // -- have an effect in opaR with newer versions of R.
-	replDLLinit:= GetProcAddress(FdllHandle, 'R_ReplDLLinit');
-    replDLLinit();
+    // -- have no effect in opaR. Leave the following in place for reference.
+    //replDLLinit := GetProcAddress(FdllHandle, 'R_ReplDLLinit');
+    //replDLLinit;
 
     FDeviceAdapter.Install(self, FStartupParameter);
 
-    // -- Retrieving default values is not done in R.NET, But is reccomended
-	// by the R documentation
-    defParams:= GetProcAddress(FdllHandle, 'R_DefParams');
+    // -- Retrieving default values is not done in R.NET, and seems to have
+    // -- no effect in opaR. Leave the following in place for reference.
+    {defParams := GetProcAddress(FdllHandle, 'R_DefParams');
     case TOSVersion.Platform of
-      pfWindows: defParams(FStartupParameter.Start);
+      //pfWindows: defParams(FStartupParameter.Start);
       //pfMacOS, pfLinux: defParams(FStartupParameter.Start.Common);
-    end;
+    end;}
 
     //setParams := GetProcAddress(FdllHandle, 'R_SetParams');
     case TOSVersion.Platform of
